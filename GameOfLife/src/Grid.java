@@ -9,6 +9,7 @@ public class Grid extends JFrame {
     static String START = "Start";
     static String STOP = "Stop";
     static String STEP = "Step";
+    static String SET = "Set";
     Grid() {
         game = new Game(20, 20);
         try {
@@ -20,16 +21,29 @@ public class Grid extends JFrame {
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel sizePannel = new JPanel();
 
+        JButton set = new JButton();
+        set.setPreferredSize(new Dimension(60, 30));
+        set.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // set size
+            }
+        });
+        set.setText(SET);
+        sizePannel.add(set);
 
         int x = 20;
         int y = 20;
         buttons = new JButton[x][y];
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(set, BorderLayout.PAGE_START);
 
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new GridLayout(x, y));
+
         for (int ix = 0; ix < x; ix++) {
             for (int iy = 0; iy < y; iy++) {
                 buttons[ix][iy] = new JButton();
