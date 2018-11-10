@@ -1,11 +1,12 @@
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import javax.swing.*;
 
 public class Grid extends JFrame {
+    Game game;
+    JButton[][] buttons;
 
     Grid() {
+        game = new Game(20, 20);
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException
@@ -13,27 +14,57 @@ public class Grid extends JFrame {
             e.printStackTrace();
         }
 
-        JFrame f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        int x = 30;
-        int y = 30;
+        int x = 20;
+        int y = 20;
+        buttons = new JButton[x][y];
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(x, y));
-        for (int i = 0; i < x * y; i++) {
-            JButton button = new JButton();
-            button.setPreferredSize(new Dimension(x, y));
-            panel.add(button);
+        JPanel gridPanel = new JPanel();
+        gridPanel.setLayout(new GridLayout(x, y));
+        for (int ix = 0; ix < x; ix++) {
+            for (int iy = 0; iy < y; iy++) {
+                buttons[ix][iy] = new JButton();
+                buttons[ix][iy].setPreferredSize(new Dimension(30, 30));
+                gridPanel.add(buttons[ix][iy]);
+            }
         }
-        JPanel container = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        container.add(panel);
-        JScrollPane scrollPane = new JScrollPane(container);
-        f.getContentPane().add(scrollPane);
 
-        f.pack();
-        f.setLocationRelativeTo(null);
-        f.setVisible(true);
+        frame.setSize(500, 500);
+        frame.setLocationRelativeTo(null);
+
+        //frame.pack();
+
+
+        JPanel buttonPanel = new JPanel();
+        JButton step = new JButton();
+        step.setPreferredSize(new Dimension(60, 30));
+        step.setText("Step");
+        buttonPanel.add(step);
+
+        mainPanel.add(gridPanel, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.PAGE_END);
+        frame.add(mainPanel);
+
+        frame.setVisible(true);
+showField();
+
+    }
+
+    private void showField() {
+        boolean[][] field = game.getField();
+        for (int ix = 0; ix < 20; ix++) {
+            for (int iy = 0; iy < 20; iy++) {
+                if (field[ix][iy]) {
+                    buttons[ix][iy].setBackground(Color.black);
+                } else {
+                    buttons[ix][iy].setBackground(Color.white);
+                }
+            }
+        }
     }
 }

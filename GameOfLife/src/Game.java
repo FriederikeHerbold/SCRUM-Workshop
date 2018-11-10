@@ -22,7 +22,7 @@ public class Game {
         field = new boolean[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                field[x][y] = (Math.random() % 2 == 1);
+                field[x][y] = ((Math.random()) < 0.5);
             }
         }
     }
