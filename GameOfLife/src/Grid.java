@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class Grid extends JFrame {
@@ -43,6 +45,13 @@ public class Grid extends JFrame {
         JPanel buttonPanel = new JPanel();
         JButton step = new JButton();
         step.setPreferredSize(new Dimension(60, 30));
+        step.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                game.nextGen();
+                showField();
+            }
+        });
         step.setText("Step");
         buttonPanel.add(step);
 
