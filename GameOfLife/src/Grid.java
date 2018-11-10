@@ -6,7 +6,9 @@ import javax.swing.*;
 public class Grid extends JFrame {
     Game game;
     JButton[][] buttons;
-
+    static String START = "Start";
+    static String STOP = "Stop";
+    static String STEP = "Step";
     Grid() {
         game = new Game(20, 20);
         try {
@@ -39,20 +41,46 @@ public class Grid extends JFrame {
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
 
-        //frame.pack();
-
-
         JPanel buttonPanel = new JPanel();
+
+        int delay = 1000; //milliseconds
+        ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                nextGen();
+            }
+        };
+        Timer timer = new javax.swing.Timer(delay, taskPerformer);
+
+        JButton startStopButton = new JButton();
+        startStopButton.setPreferredSize(new Dimension(60, 30));
+        startStopButton.setText(START);
+
+        startStopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(timer.isRunning()) {
+                    timer.stop();
+                    startStopButton.setText(START);
+                } else {
+                    nextGen();
+                    timer.start();
+                    startStopButton.setText(STOP);
+                }
+            }
+        });
+        //action listener
+        buttonPanel.add(startStopButton);
+
+
         JButton step = new JButton();
         step.setPreferredSize(new Dimension(60, 30));
         step.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                game.nextGen();
-                showField();
+                nextGen();
             }
         });
-        step.setText("Step");
+        step.setText(STEP);
         buttonPanel.add(step);
 
         mainPanel.add(gridPanel, BorderLayout.CENTER);
@@ -60,8 +88,7 @@ public class Grid extends JFrame {
         frame.add(mainPanel);
 
         frame.setVisible(true);
-showField();
-
+        showField();
     }
 
     private void showField() {
@@ -75,5 +102,10 @@ showField();
                 }
             }
         }
+    }
+
+    public void nextGen() {
+        game.nextGen();
+        showField();
     }
 }
