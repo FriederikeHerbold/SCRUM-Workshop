@@ -88,30 +88,15 @@ public class GameStaticTests {
 
     @Test
     void testWrap() {
-        Game game = new Game();
+        Game game = new Game(2,2);
         assertEquals(0, game.wrap(-2, 2));
         assertEquals(1, game.wrap(-1, 2));
         assertEquals(0, game.wrap(0, 2));
         assertEquals(1, game.wrap(1, 2));
         assertEquals(0, game.wrap(2, 2));
+        assertEquals(3, game.wrap(3, 4));
 
     }
- /*   @Test
-    void testStep() {
-        boolean[][] gird1 = {
-                {false, false, false,false},
-                {true, false, false,false},
-                {false, false, false,false},
-        };
 
-        boolean[][] gird2 = {
-                {false, false, false,false},
-                {false, false, false,false},
-                {false, false, false,false},
-        };
-
-        assertEquals(grid2,Game.);
-    }
-*/
 
 }

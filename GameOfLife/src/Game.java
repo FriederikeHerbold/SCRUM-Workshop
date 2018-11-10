@@ -1,8 +1,22 @@
 public class Game {
 
-    public boolean[][] field;
-    public int width = 20;
-    public int height = 20;
+    public boolean[][] getField() {
+        return field;
+    }
+
+    private boolean[][] field;
+    private int width = 20;
+    private int height = 20;
+
+
+    Game(int width, int height) {
+        this.width = width;
+
+        this.height = height;
+        crateField();
+    }
+
+
 
     public void crateField() {
         field = new boolean[width][height];
@@ -22,6 +36,9 @@ public class Game {
         }
         return nextGenField;
     }
+    public void nextGen() {
+        field = nextStep(field);
+    }
 
     public int wrap(int index, int count) {
         return Math.abs(index) % count;
@@ -29,11 +46,11 @@ public class Game {
 
     public boolean[][] getGridAtIndex(boolean[][] field, int x, int y) {
         boolean[][] grid = {
-                {
-                        field[wrap(x - 1, width)][wrap(y - 1, height)],
-                        field[wrap(x - 1, width)][wrap(y, height)],
-                        field[wrap(x - 1, width)][wrap(y + 1, height)],
-                }, {
+        {
+                field[wrap(x - 1, width)][wrap(y - 1, height)],
+                field[wrap(x - 1, width)][wrap(y, height)],
+                field[wrap(x - 1, width)][wrap(y + 1, height)],
+        }, {
                 field[wrap(x, width)][wrap(y - 1, height)],
                 field[wrap(x, width)][wrap(y, height)],
                 field[wrap(x, width)][wrap(y + 1, height)],
