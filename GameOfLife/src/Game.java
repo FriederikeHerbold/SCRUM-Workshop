@@ -5,6 +5,15 @@ public class Game {
     }
 
     private boolean[][] field;
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     private int width = 20;
     private int height = 20;
 

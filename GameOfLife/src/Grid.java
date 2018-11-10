@@ -10,6 +10,9 @@ public class Grid extends JFrame {
     static String STOP = "Stop";
     static String STEP = "Step";
     static String SET = "Set";
+
+    JPanel gridPanel = new JPanel();
+
     Grid() {
         game = new Game(20, 20);
         try {
@@ -23,34 +26,42 @@ public class Grid extends JFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel sizePannel = new JPanel();
 
+        JLabel widthLabel = new JLabel("Width:");
+        sizePannel.add(widthLabel);
+        JTextField widthField = new JTextField("20");
+        widthField.setMinimumSize(new Dimension(100, 30));
+        sizePannel.add(widthField);
+        JLabel heightLabel = new JLabel("Height:");
+        sizePannel.add(heightLabel);
+        JTextField heightField = new JTextField("20");
+
+
+        heightField.setMinimumSize(new Dimension(100, 30));
+        sizePannel.add(heightField);
+
         JButton set = new JButton();
         set.setPreferredSize(new Dimension(60, 30));
         set.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // set size
+                int newWidth = Integer.parseInt(widthField.getText(), 10);
+                int newHeight = Integer.parseInt(heightField.getText(), 10);
+                game = new Game(newWidth, newHeight);
+                createButtons();
+                showField();
             }
         });
         set.setText(SET);
         sizePannel.add(set);
 
-        int x = 20;
-        int y = 20;
-        buttons = new JButton[x][y];
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(set, BorderLayout.PAGE_START);
+        mainPanel.add(sizePannel, BorderLayout.PAGE_START);
 
-        JPanel gridPanel = new JPanel();
-        gridPanel.setLayout(new GridLayout(x, y));
+        gridPanel = new JPanel();
 
-        for (int ix = 0; ix < x; ix++) {
-            for (int iy = 0; iy < y; iy++) {
-                buttons[ix][iy] = new JButton();
-                buttons[ix][iy].setPreferredSize(new Dimension(30, 30));
-                gridPanel.add(buttons[ix][iy]);
-            }
-        }
+        createButtons();
 
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
@@ -105,10 +116,27 @@ public class Grid extends JFrame {
         showField();
     }
 
+    private void createButtons() {
+        gridPanel.removeAll();
+        int x = game.getWidth();
+        int y = game.getHeight();
+        gridPanel.setLayout(new GridLayout(x, y));
+
+        buttons = new JButton[x][y];
+        for (int ix = 0; ix < x; ix++) {
+            for (int iy = 0; iy < y; iy++) {
+                buttons[ix][iy] = new JButton();
+                buttons[ix][iy].setPreferredSize(new Dimension(30, 30));
+                gridPanel.add(buttons[ix][iy]);
+            }
+        }
+        gridPanel.updateUI();
+    }
+
     private void showField() {
         boolean[][] field = game.getField();
-        for (int ix = 0; ix < 20; ix++) {
-            for (int iy = 0; iy < 20; iy++) {
+        for (int ix = 0; ix < game.getWidth(); ix++) {
+            for (int iy = 0; iy < game.getHeight(); iy++) {
                 if (field[ix][iy]) {
                     buttons[ix][iy].setBackground(Color.black);
                 } else {
